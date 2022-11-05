@@ -6,8 +6,8 @@
 #Author: Amelia Rotondo
 #Course: CPSC223N
 #Semester: Fall 2022
-#Assignment: 2
-#Due: September 18, 2022.
+#Assignment: 4
+#Due: Sometime? 2022.
 #This is the script file that is part of the program Exit Sign
 
 #This is a bash shell script to be used for compiling, linking, and executing the C sharp files of this assignment.
@@ -34,13 +34,13 @@ echo Compile BallUI.cs to create the file: BallUI.dll
 mcs -target:library -r:System.Drawing.dll -r:System.Windows.Forms.dll -out:BallUI.dll BallUI.cs
 
 echo Compile BallMain.cs and link the two previously created dll files to create an executable file. 
-mcs -r:System -r:System.Windows.Forms -r:BallUI.dll -out:BallInMotion.exe BallMain.cs
+mcs -r:System -r:System.Windows.Forms -r:BallUI.dll -out:RicochetBall.exe BallMain.cs
 
 echo View the list of files in the current folder
 ls -l
 
 echo Run the Assignment 1 program.
-./BallInMotion.exe
+./RicochetBall.exe
 
 echo The script has terminated.
 
