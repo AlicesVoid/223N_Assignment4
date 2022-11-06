@@ -20,7 +20,7 @@ public class RicochetBallInterface: Form
       private Label x_title     = new Label();
       private Label y_title     = new Label();
       private Panel header            = new Panel();
-      private Panel controls          = new Panel();
+      private Panel controlz          = new Panel();
       private Graphicpanel ball_mover = new Graphicpanel();
       private Button init_button  = new Button();
       private Button start_button = new Button();
@@ -91,10 +91,10 @@ public class RicochetBallInterface: Form
             title.Size        = new Size(800, 90);
             header.Size       = new Size(1000, 200);
             ball_mover.Size   = new Size(1000, 700);
-            controls.Size     = new Size(1000, 300);
-            coord_title.Size  = new Size(350, 60);
-            speed_title.Size  = new Size(350, 60);
-            dir_title.Size    = new Size(350, 60);
+            controlz.Size     = new Size(1000, 300);
+            coord_title.Size  = new Size(200, 60);
+            speed_title.Size  = new Size(200, 60);
+            dir_title.Size    = new Size(200, 60);
             x_title.Size      = new Size(150, 90);
             y_title.Size      = new Size(150, 90);
             init_button.Size  = button_size;
@@ -108,7 +108,7 @@ public class RicochetBallInterface: Form
             //INIT. COLORS
             header.BackColor       = header_color;
             ball_mover.BackColor   = ball_contrast;
-            controls.BackColor     = control_contrast;
+            controlz.BackColor     = control_contrast;
             coord_title.BackColor  = control_text_color;
             speed_title.BackColor  = control_text_color;
             dir_title.BackColor    = control_text_color;
@@ -155,63 +155,44 @@ public class RicochetBallInterface: Form
             //INIT. LOCATIONS
             header.Location     = new Point(0, 0);
             ball_mover.Location = new Point(0, 200);
-            controls.Location   = new Point(0, 900);
+            controlz.Location   = new Point(0, 900);
 
-            title.Location = new Point(125,37);
-            /*
-            headerpanel.Location = new Point(0,0);
-            title.Location = new Point(125,69);
+            title.Location       = new Point(125, 40);
+            coord_title.Location = new Point(450, 130);
+            speed_title.Location = new Point(300, 10);
+            dir_title.Location   = new Point(650, 10);
+            x_title.Location     = new Point(300, 200);
+            y_title.Location     = new Point(600, 200);
+            speed_input.Location = new Point(500, 10);
+            dir_input.Location   = new Point(850, 10);
+            x_output.Location    = new Point(460, 200);
+            y_output.Location    = new Point(760, 200);
 
-                  start_coord.Location = new Point (55, 2);
-                  mid_coord.Location = new Point (210, 18);
-                  fin_coord.Location = new Point (400, 2);
-                  x1_coordinput.Location = new Point(45, 72);
-                  y1_coordinput.Location = new Point(110, 72);
-                  x_mid.Location = new Point(215, 88);
-                  y_mid.Location = new Point(280, 88);
-                  x2_coordinput.Location = new Point(395, 72);
-                  y2_coordinput.Location = new Point(460, 72);
-                  local_coord.Location = new Point(550, 30);
-                  output_coord.Location = new Point(570, 70);
-
-            gobutton.Location = new Point(780,50);
-            initialbutton.Location = new Point (900, 50);
-            quitbutton.Location = new Point(1020,50);
-
-            headerpanel.Location = new Point(0,0);
-            line_drawer.Location = new Point(0,200);
-            controlpanel.Location = new Point(0,760);
-            */
-
-            //Add controls to the form
-            Controls.Add(headerpanel);
-            headerpanel.Controls.Add(title);
+            //INIT. CONTROLS
+            Controls.Add(header);
             Controls.Add(line_drawer);
-            Controls.Add(controlpanel);
-            controlpanel.Controls.Add(gobutton);
-            controlpanel.Controls.Add(initialbutton);
-            controlpanel.Controls.Add(quitbutton);
-            controlpanel.Controls.Add(x1_coordinput);
-            controlpanel.Controls.Add(y1_coordinput);
-            controlpanel.Controls.Add(x2_coordinput);
-            controlpanel.Controls.Add(y2_coordinput);
-            controlpanel.Controls.Add(x_mid);
-            controlpanel.Controls.Add(y_mid);
-            controlpanel.Controls.Add(start_coord);
-            controlpanel.Controls.Add(mid_coord);
-            controlpanel.Controls.Add(fin_coord);
-            controlpanel.Controls.Add(local_coord);
-            controlpanel.Controls.Add(output_coord);
+            Controls.Add(controlz);
+            header.Controls.Add(title);
+                      
+            //INIT. CONTROLZ
+            controlz.Controls.Add(coord_title);
+            controlz.Controls.Add(speed_title);
+            controlz.Controls.Add(dir_title);
+            controlz.Controls.Add(x_title);
+            controlz.Controls.Add(y_title);
+            controlz.Controls.Add(speed_input);
+            controlz.Controls.Add(dir_input);
+            controlz.Controls.Add(x_output);
+            controlz.Controls.Add(y_output);  
 
-            //Register the event handler.  In this case each button has an event handler, but no other 
-            //controls have event handlers.
-            gobutton.Click += new EventHandler(drawline);
-            initialbutton.Click += new EventHandler(resetrun);
-            quitbutton.Click += new EventHandler(stoprun);  //The '+' is required.
-
-            //Configure the clock that controls the shutdown      //<== New in version 2.2
+            //INIT. EVENT HANDLERS
+            //init_button += new EventHandler(resetrun);
+            //start_button += new EventHandler(drawline);
+            //quit_button += new EventHandler(stoprun);
+            
+            //INIT. CLOCK CONFIG
             exit_clock.Enabled = false;     //Clock is turned off at start program execution.
-            exit_clock.Interval = 7500;     //7500ms = 7.5seconds.  Clock will tick at intervals of 7.5 seconds
+            exit_clock.Interval = 2500;     //7500ms = 7.5seconds.  Clock will tick at intervals of 7.5 seconds
             exit_clock.Elapsed += new ElapsedEventHandler(shutdown);   //Attach a method to the clock.
 
             ball_clock.Enabled = false;     //Clock is turned off at start program execution.
@@ -225,7 +206,7 @@ public class RicochetBallInterface: Form
       }//End of constructor RicochetBallInterface
       
 
-
+      /*
       protected void drawline(Object sender, EventArgs events)
       {
       switch(runtime)
@@ -352,17 +333,17 @@ public class RicochetBallInterface: Form
             output_coord.Text = "(" + (Convert.ToInt32(x_coord) + 10) + "," + (Convert.ToInt32(y_coord) + 10) + ")";
             line_drawer.Refresh(); 
             peace_of_mind_counter++;
-            
-      }
-
+            }
       protected void shutdown(System.Object sender, EventArgs even)                   //<== Revised for version 2.2
       {//This function is called when the clock makes its first "tick", 
       //which occurs 3.5 seconds after the clock starts.
       Close();       //That means close the main user interface window.
       }//End of method shutdown
 
+      
 
-
+      */
+      
       // Method to show a whole bunch of tiny funny red dots in the shape of an Exit Sign
       public class Graphicpanel: Panel
       {private Brush paint_brush = new SolidBrush(System.Drawing.Color.Yellow);
