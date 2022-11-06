@@ -27,21 +27,14 @@ public class RicochetBallInterface: Form
       private Button quit_button  = new Button();
       private TextBox speed_input = new TextBox();
       private TextBox dir_input   = new TextBox();
-      private Textbox x_output    = new TextBox();
-      private Textbox y_output    = new TextBox();
+      private TextBox x_output    = new TextBox();
+      private TextBox y_output    = new TextBox();
 
       //UI STYLE VARIABLES
       private Size program_size   = new Size(1000, 1200);
       private Size button_size    = new Size(150, 100);
       private Font control_font      = new Font("Comic Sans MS", 18, FontStyle.Regular);
-      private Font title_font        = new Font("Impact", 25, Fontstyle.Bold);
-      private TextAlign normal_align = new ContentAlignment.MiddleCenter();
-      private BackColor header_color           = new Color.LightCoral();
-      private BackColor ball_color             = new Color.Red();
-      private BackColor ball_contrast          = new Color.LightCyan();
-      private BackColor control_contrast       = new Color.LightGoldenrodYellow();
-      private BackColor control_text_color     = new Color.LightSeaGreen();
-      private BackColor control_button_color   = new Color.LightPink();
+      private Font title_font        = new Font("Impact", 25, FontStyle.Bold);
 
       //UX VARIABLES 
       private static double BALL_MOVEMENTS = 30;
@@ -95,32 +88,32 @@ public class RicochetBallInterface: Form
             coord_title.Size  = new Size(200, 60);
             speed_title.Size  = new Size(200, 60);
             dir_title.Size    = new Size(200, 60);
-            x_title.Size      = new Size(150, 90);
-            y_title.Size      = new Size(150, 90);
+            x_title.Size      = new Size(150, 70);
+            y_title.Size      = new Size(150, 70);
             init_button.Size  = button_size;
             start_button.Size = button_size;
             quit_button.Size  = button_size;
-            speed_input.Size  = button_size;
-            dir_input.Size    = button_size;
+            speed_input.Size  = new Size(120, 80);
+            dir_input.Size    = new Size(120, 80);
             x_output.Size     = new Size(120, 90);
             y_output.Size     = new Size(120, 90);
             
             //INIT. COLORS
-            header.BackColor       = header_color;
-            ball_mover.BackColor   = ball_contrast;
-            controlz.BackColor     = control_contrast;
-            coord_title.BackColor  = control_text_color;
-            speed_title.BackColor  = control_text_color;
-            dir_title.BackColor    = control_text_color;
-            x_title.BackColor      = control_text_color;
-            y_title.BackColor      = control_text_color;
-            speed_input.BackColor  = control_button_color;
-            dir_input.BackColor    = control_button_color;
-            x_output.BackColor     = control_button_color;
-            y_output.BackColor     = control_button_color; 
-            init_button.BackColor  = control_button_color;
-            start_button.BackColor = control_button_color;
-            quit_button.BackColor  = control_button_color;
+            header.BackColor       = Color.LightSeaGreen;
+            ball_mover.BackColor   = Color.LightCyan;
+            controlz.BackColor     = Color.LightGoldenrodYellow;
+            coord_title.BackColor  = Color.LightCoral;
+            speed_title.BackColor  = Color.LightCoral;
+            dir_title.BackColor    = Color.LightCoral;
+            x_title.BackColor      = Color.LightCoral;
+            y_title.BackColor      = Color.LightCoral;
+            speed_input.BackColor  = Color.LightPink;
+            dir_input.BackColor    = Color.LightPink;
+            x_output.BackColor     = Color.LightPink;
+            y_output.BackColor     = Color.LightPink; 
+            init_button.BackColor  = Color.LightPink;
+            start_button.BackColor = Color.LightPink;
+            quit_button.BackColor  = Color.LightPink;
 
             //INIT. FONTS
             title.Font        = title_font;
@@ -138,19 +131,15 @@ public class RicochetBallInterface: Form
             y_output.Font     = control_font;
 
             //INIT. ALIGNMENTS
-            title.TextAlign        = normal_align;
-            coord_title.TextAlign  = normal_align;
-            speed_title.TextAlign  = normal_align;
-            dir_title.TextAlign    = normal_align;
-            x_title.TextAlign      = normal_align;
-            y_title.TextAlign      = normal_align;
-            init_button.TextAlign  = normal_align;
-            start_button.TextAlign = normal_align;
-            quit_button.TextAlign  = normal_align;
-            speed_input.TextAlign  = normal_align;
-            dir_input.TextAlign    = normal_align;
-            x_output.TextAlign     = normal_align;
-            y_output.TextAlign     = normal_align;
+            title.TextAlign        = ContentAlignment.MiddleCenter;
+            coord_title.TextAlign  = ContentAlignment.MiddleCenter;
+            speed_title.TextAlign  = ContentAlignment.MiddleCenter;
+            dir_title.TextAlign    = ContentAlignment.MiddleCenter;
+            x_title.TextAlign      = ContentAlignment.MiddleCenter;
+            y_title.TextAlign      = ContentAlignment.MiddleCenter;
+            init_button.TextAlign  = ContentAlignment.MiddleCenter;
+            start_button.TextAlign = ContentAlignment.MiddleCenter;
+            quit_button.TextAlign  = ContentAlignment.MiddleCenter;
 
             //INIT. LOCATIONS
             header.Location     = new Point(0, 0);
@@ -159,18 +148,22 @@ public class RicochetBallInterface: Form
 
             title.Location       = new Point(125, 40);
             coord_title.Location = new Point(450, 130);
-            speed_title.Location = new Point(300, 10);
-            dir_title.Location   = new Point(650, 10);
+            speed_title.Location = new Point(200, 10);
+            dir_title.Location   = new Point(550, 10);
             x_title.Location     = new Point(300, 200);
             y_title.Location     = new Point(600, 200);
-            speed_input.Location = new Point(500, 10);
-            dir_input.Location   = new Point(850, 10);
+            speed_input.Location = new Point(410, 10);
+            dir_input.Location   = new Point(760, 10);
             x_output.Location    = new Point(460, 200);
             y_output.Location    = new Point(760, 200);
 
+            init_button.Location  = new Point(30, 10);
+            start_button.Location = new Point(40, 150);
+            quit_button.Location = new Point(790, 75);
+
             //INIT. CONTROLS
             Controls.Add(header);
-            Controls.Add(line_drawer);
+            Controls.Add(ball_mover);
             Controls.Add(controlz);
             header.Controls.Add(title);
                       
@@ -183,7 +176,10 @@ public class RicochetBallInterface: Form
             controlz.Controls.Add(speed_input);
             controlz.Controls.Add(dir_input);
             controlz.Controls.Add(x_output);
-            controlz.Controls.Add(y_output);  
+            controlz.Controls.Add(y_output);
+            controlz.Controls.Add(init_button);
+            controlz.Controls.Add(start_button);
+            controlz.Controls.Add(quit_button);  
 
             //INIT. EVENT HANDLERS
             //init_button += new EventHandler(resetrun);
@@ -193,11 +189,11 @@ public class RicochetBallInterface: Form
             //INIT. CLOCK CONFIG
             exit_clock.Enabled = false;     //Clock is turned off at start program execution.
             exit_clock.Interval = 2500;     //7500ms = 7.5seconds.  Clock will tick at intervals of 7.5 seconds
-            exit_clock.Elapsed += new ElapsedEventHandler(shutdown);   //Attach a method to the clock.
+            //exit_clock.Elapsed += new ElapsedEventHandler(shutdown);   //Attach a method to the clock.
 
             ball_clock.Enabled = false;     //Clock is turned off at start program execution.
             ball_clock.Interval = ball_interval;     // 3.0 Hz
-            ball_clock.Elapsed += new ElapsedEventHandler(ballHelper);   //Attach a method to the clock.
+            //ball_clock.Elapsed += new ElapsedEventHandler(ballHelper);   //Attach a method to the clock.
 
 
             //Open this user interface window in the center of the display.
@@ -355,6 +351,7 @@ public class RicochetBallInterface: Form
       {  
             Graphics graph = ee.Graphics;
 
+            /*
             switch(runtime)
             {
             case State.Init: 
@@ -376,6 +373,7 @@ public class RicochetBallInterface: Form
                   
             break;
             }
+            */
 
             base.OnPaint(ee);
 
