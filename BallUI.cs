@@ -32,6 +32,7 @@ public class RicochetBallInterface: Form
 
       //UI STYLE VARIABLES
       private Size program_size   = new Size(1000, 1200);
+      private Size button_size    = new Size(150, 100);
       private Font control_font      = new Font("Comic Sans MS", 18, FontStyle.Regular);
       private Font title_font        = new Font("Impact", 25, Fontstyle.Bold);
       private TextAlign normal_align = new ContentAlignment.MiddleCenter();
@@ -70,77 +71,94 @@ public class RicochetBallInterface: Form
       //CONSTRUCTOR
       public RicochetBallInterface() 
       {
-            //Set the size of the user interface box.
+            //DECLARE SIZES
             MaximumSize = program_size;
             MinimumSize = program_size;
 
-            //Initialize text strings
-            title.Text = "Ricochet Ball by Amelia Rotondo";
-            gobutton.Text = "Go!!!";
-            initialbutton.Text = "Initial";
-            quitbutton.Text = "Quit...";
-            start_coord.Text = "Start:";
-            mid_coord.Text = "Midpoint:";
-            fin_coord.Text = "Finish:";
-            local_coord.Text = "Ball Location:";
-            output_coord.Text = "( , )";
+            //INIT. TEXT
+            title.Text        = "Ricochet Ball by Amelia Rotondo";
+            coord_title.Text  = "Ball Coords:";
+            speed_title.Text  = "SET THE SPEED:";
+            dir_title.Text    = "SET THE ANGLE:";
+            x_title.Text      = "X = ";
+            y_title.Text      = "Y = ";
+            init_button.Text  = "Init.";
+            start_button.Text = "Start!";
+            quit_button.Text  = "Quit...";
+                                    
+            //INIT. SIZES
+            Size              = MaximumSize;
+            title.Size        = new Size(800, 90);
+            header.Size       = new Size(1000, 200);
+            ball_mover.Size   = new Size(1000, 700);
+            controls.Size     = new Size(1000, 300);
+            coord_title.Size  = new Size(350, 60);
+            speed_title.Size  = new Size(350, 60);
+            dir_title.Size    = new Size(350, 60);
+            x_title.Size      = new Size(150, 90);
+            y_title.Size      = new Size(150, 90);
+            init_button.Size  = button_size;
+            start_button.Size = button_size;
+            quit_button.Size  = button_size;
+            speed_input.Size  = button_size;
+            dir_input.Size    = button_size;
+            x_output.Size     = new Size(120, 90);
+            y_output.Size     = new Size(120, 90);
             
-            //Set sizes
-            Size = new Size(400,240);
-            title.Size = new Size(800,44);
-            gobutton.Size = new Size(100,100);
-            initialbutton.Size = new Size(100,100);
-            quitbutton.Size = new Size(100,100);
-            headerpanel.Size = new Size(1200,200);
-            line_drawer.Size = new Size(1200,560);
-            controlpanel.Size = new Size(1200,400);
-            x1_coordinput.Size = new Size(60, 200);
-            y1_coordinput.Size = new Size(60, 200);
-            x2_coordinput.Size = new Size(60, 200);
-            y2_coordinput.Size = new Size(60, 200);
-            x_mid.Size = new Size(60, 200);
-            y_mid.Size = new Size(60, 200);
-            start_coord.Size = new Size(100, 80);
-            mid_coord.Size = new Size(170, 80);
-            fin_coord.Size = new Size(120, 80);
-            local_coord.Size = new Size(250, 40);
-            output_coord.Size = new Size(160, 60);
-            
-            //Set colors
-            headerpanel.BackColor = Color.LightPink;
-            line_drawer.BackColor = Color.Aquamarine;
-            controlpanel.BackColor = Color.LightYellow;
-            gobutton.BackColor = Color.LightSalmon;
-            initialbutton.BackColor = Color.LightSalmon;
-            quitbutton.BackColor = Color.Cyan;
-            output_coord.BackColor = Color.White;
-            //quitbutton.BackColor = Color.FromArgb(0xA1,0xD4,0xAA);
-            
-            //Set fonts
-            title.Font = new Font("Impact",33,FontStyle.Bold);
-            gobutton.Font = new Font("Comic Sans MS",20,FontStyle.Bold);
-            initialbutton.Font = new Font("Comic Sans MS",20,FontStyle.Bold);
-            quitbutton.Font = new Font("Comic Sans MS",20,FontStyle.Italic);
-            x1_coordinput.Font = new Font("Comic Sans MS", 20, FontStyle.Regular);
-            y1_coordinput.Font = new Font("Comic Sans MS", 20, FontStyle.Regular);
-            x2_coordinput.Font = new Font("Comic Sans MS", 20, FontStyle.Regular);
-            y2_coordinput.Font = new Font("Comic Sans MS", 20, FontStyle.Regular);
-            x_mid.Font = new Font("Comic Sans MS", 20, FontStyle.Regular);
-            y_mid.Font = new Font("Comic Sans MS", 20, FontStyle.Regular);
-            start_coord.Font = new Font("Comic Sans MS", 20, FontStyle.Bold);
-            mid_coord.Font = new Font("Comic Sans MS", 20, FontStyle.Bold);
-            fin_coord.Font = new Font("Comic Sans MS", 20, FontStyle.Bold);
-            local_coord.Font = new Font("Comic Sans MS", 20, FontStyle.Bold);
-            output_coord.Font = new Font("Comic Sans MS", 20, FontStyle.Regular);  
+            //INIT. COLORS
+            header.BackColor       = header_color;
+            ball_mover.BackColor   = ball_contrast;
+            controls.BackColor     = control_contrast;
+            coord_title.BackColor  = control_text_color;
+            speed_title.BackColor  = control_text_color;
+            dir_title.BackColor    = control_text_color;
+            x_title.BackColor      = control_text_color;
+            y_title.BackColor      = control_text_color;
+            speed_input.BackColor  = control_button_color;
+            dir_input.BackColor    = control_button_color;
+            x_output.BackColor     = control_button_color;
+            y_output.BackColor     = control_button_color; 
+            init_button.BackColor  = control_button_color;
+            start_button.BackColor = control_button_color;
+            quit_button.BackColor  = control_button_color;
 
-            //Set position of text within a label
-            title.TextAlign = ContentAlignment.MiddleCenter;
-            start_coord.TextAlign = ContentAlignment.MiddleLeft;
-            mid_coord.TextAlign = ContentAlignment.MiddleLeft; 
-            fin_coord.TextAlign = ContentAlignment.MiddleLeft;
-            output_coord.TextAlign = ContentAlignment.MiddleCenter;
+            //INIT. FONTS
+            title.Font        = title_font;
+            coord_title.Font  = control_font;
+            speed_title.Font  = control_font;
+            dir_title.Font    = control_font; 
+            x_title.Font      = control_font;
+            y_title.Font      = control_font;
+            init_button.Font  = control_font;
+            start_button.Font = control_font;
+            quit_button.Font  = control_font;
+            speed_input.Font  = control_font;
+            dir_input.Font    = control_font;
+            x_output.Font     = control_font;
+            y_output.Font     = control_font;
 
-            //Set locations
+            //INIT. ALIGNMENTS
+            title.TextAlign        = normal_align;
+            coord_title.TextAlign  = normal_align;
+            speed_title.TextAlign  = normal_align;
+            dir_title.TextAlign    = normal_align;
+            x_title.TextAlign      = normal_align;
+            y_title.TextAlign      = normal_align;
+            init_button.TextAlign  = normal_align;
+            start_button.TextAlign = normal_align;
+            quit_button.TextAlign  = normal_align;
+            speed_input.TextAlign  = normal_align;
+            dir_input.TextAlign    = normal_align;
+            x_output.TextAlign     = normal_align;
+            y_output.TextAlign     = normal_align;
+
+            //INIT. LOCATIONS
+            header.Location     = new Point(0, 0);
+            ball_mover.Location = new Point(0, 200);
+            controls.Location   = new Point(0, 900);
+
+            title.Location = new Point(125,37);
+            /*
             headerpanel.Location = new Point(0,0);
             title.Location = new Point(125,69);
 
@@ -163,6 +181,7 @@ public class RicochetBallInterface: Form
             headerpanel.Location = new Point(0,0);
             line_drawer.Location = new Point(0,200);
             controlpanel.Location = new Point(0,760);
+            */
 
             //Add controls to the form
             Controls.Add(headerpanel);
