@@ -19,6 +19,8 @@ public class RicochetBallInterface: Form
       private Label dir_title   = new Label();
       private Label x_title     = new Label();
       private Label y_title     = new Label();
+      private Label x_output    = new Label();
+      private Label y_output    = new Label();
       private Panel header            = new Panel();
       private Panel controlz          = new Panel();
       private Graphicpanel ball_mover = new Graphicpanel();
@@ -27,8 +29,6 @@ public class RicochetBallInterface: Form
       private Button quit_button  = new Button();
       private TextBox speed_input = new TextBox();
       private TextBox dir_input   = new TextBox();
-      private TextBox x_output    = new TextBox();
-      private TextBox y_output    = new TextBox();
 
       //UI STYLE VARIABLES
       private Size program_size   = new Size(1000, 1200);
@@ -38,12 +38,11 @@ public class RicochetBallInterface: Form
 
       //UX VARIABLES 
       private static double BALL_MOVEMENTS = 30;
-      private static double delta_x = 0;
-      private static double delta_y = 0; 
-      private static double x_coord = 0; 
-      private static double y_coord = 0; 
-
-      private static double peace_of_mind_counter = 0;
+      private static double delta_x   = 0;
+      private static double delta_y   = 0; 
+      private static double x_coord   = 490; 
+      private static double y_coord   = 340; 
+      private static double dir_angle = 0;
 
       //Runtime State 
       private enum State {Init, Line, Pause};
@@ -182,167 +181,171 @@ public class RicochetBallInterface: Form
             controlz.Controls.Add(quit_button);  
 
             //INIT. EVENT HANDLERS
-            //init_button += new EventHandler(resetrun);
-            //start_button += new EventHandler(drawline);
-            //quit_button += new EventHandler(stoprun);
+            init_button.Click  += new EventHandler(resetRun);
+            start_button.Click += new EventHandler(startRun);
+            quit_button.Click  += new EventHandler(stopRun);
             
             //INIT. CLOCK CONFIG
             exit_clock.Enabled = false;     //Clock is turned off at start program execution.
-            exit_clock.Interval = 2500;     //7500ms = 7.5seconds.  Clock will tick at intervals of 7.5 seconds
-            //exit_clock.Elapsed += new ElapsedEventHandler(shutdown);   //Attach a method to the clock.
+            exit_clock.Interval = 2500;               //2.5 Seconds
+            exit_clock.Elapsed += new ElapsedEventHandler(shutdown);   //Attach a method to the clock.
 
             ball_clock.Enabled = false;     //Clock is turned off at start program execution.
-            ball_clock.Interval = ball_interval;     // 3.0 Hz
-            //ball_clock.Elapsed += new ElapsedEventHandler(ballHelper);   //Attach a method to the clock.
-
+            ball_clock.Interval = ball_interval;      // 1/3rd Second 
+            ball_clock.Elapsed += new ElapsedEventHandler(ballHelper);   //Attach a method to the clock.
 
             //Open this user interface window in the center of the display.
             CenterToScreen();
 
       }//End of constructor RicochetBallInterface
       
-
-      /*
-      protected void drawline(Object sender, EventArgs events)
+      //Helper Method to Reset the Run
+      protected void resetRun(Object sender, EventArgs events)
       {
-      switch(runtime)
-      {
-                  case State.Init:
-                        Console.WriteLine("Starting Point Input = (" + x1_coordinput.Text + ", " + y1_coordinput.Text + ")");
-                        Console.WriteLine("Midpoint Input = (" + x_mid.Text + ", " + y_mid.Text + ")");
-                        Console.WriteLine("Finishing Point Input = (" + x2_coordinput.Text + ", " + y2_coordinput.Text + ")");
+            //Clear Text
+            speed_input.Text = " ";
+            dir_input.Text   = " ";
+            x_output.Text    = " ";
+            y_output.Text    = " ";
 
-                        if(Convert.ToDouble(x1_coordinput.Text) < 0 || Convert.ToDouble(x1_coordinput.Text) > 1200)
-                              {throw new Exception("Invalid Input - Input Out of Bounds");}
-                        else if(Convert.ToDouble(x2_coordinput.Text) < 0 || Convert.ToDouble(x2_coordinput.Text) > 1200)
-                              {throw new Exception("Invalid Input - Input Out of Bounds");}
-                        else if(Convert.ToDouble(y1_coordinput.Text) < 0 || Convert.ToDouble(y2_coordinput.Text) > 560)
-                              {throw new Exception("Invalid Input - Input Out of Bounds");}
-                        else if(Convert.ToDouble(y_mid.Text) < 0 || Convert.ToDouble(y_mid.Text) > 560)
-                              {throw new Exception("Invalid Input - Input Out of Bounds");}
-                        else if(Convert.ToDouble(x_mid.Text) < 0 || Convert.ToDouble(x_mid.Text) > 1200)
-                              {throw new Exception("Invalid Input - Input Out of Bounds");}
-                                                            
-                        x_coord = Convert.ToDouble(x1_coordinput.Text);
-                        y_coord = Convert.ToDouble(y1_coordinput.Text);
+            start_button.Text = "Start!";
+            quit_button.Text  = "Quit...";
 
-                        
-                        delta_x1 = ((Convert.ToDouble(x_mid.Text)) - x_coord) / BALL_MOVEMENTS;
-                        delta_y1 = ((Convert.ToDouble(y_mid.Text)) - y_coord) / BALL_MOVEMENTS;
-                        delta_x2 = ((Convert.ToDouble(x2_coordinput.Text)) - (Convert.ToDouble(x_mid.Text))) / BALL_MOVEMENTS;
-                        delta_y2 = ((Convert.ToDouble(y2_coordinput.Text)) - (Convert.ToDouble(y_mid.Text))) / BALL_MOVEMENTS;
+            //Reset Variable
+            BALL_MOVEMENTS = 0;
+            x_coord        = 490;
+            y_coord        = 340;
+            delta_x        = 0;
+            delta_y        = 0;
+            dir_angle      = 0;
+
+            ball_clock.Enabled = false;
+            runtime = State.Init;
             
-                        x_coord -= 10;
-                        y_coord -= 10;
-
-                        Console.WriteLine("Delta x1 = " + delta_x1 + ", Delta y1 = " + delta_y1);
-                        Console.WriteLine("Delta x2 = " + delta_x2 + ", Delta y2 = " + delta_y2);
-
-                        runtime = State.Line;
-                        ball_clock.Interval= ball_interval;     // 3.0 Hz
-                        ball_clock.Enabled = true;
-                        gobutton.Text = "Pause?";
-                        break;
-                  
-                  case State.Line: 
-                        runtime = State.Pause;
-                        ball_clock.Enabled = false;
-                        gobutton.Text = "Go!!!";
-                        
-                  break;
-
-                  default: 
-                        runtime = State.Line;
-                        ball_clock.Interval= ball_interval;     // 3.0 Hz
-                        ball_clock.Enabled = true;
-                        gobutton.Text = "Pause?";
-                  break;
+            //Reset Graphic Panel
+            ball_mover.Invalidate();
+            ball_mover.Refresh();
       }
-            line_drawer.Refresh(); 
-      }//End of drawline
 
-      //Method to Exit and LEAVE the Program (waits 2.5 seconds before closing)
-      protected void stoprun(Object sender, EventArgs events)
-      {switch(current_state)
-      {case Execution_state.Executing:
-                  exit_clock.Interval= 2500;     //2500ms = 2.5 seconds
-                  exit_clock.Enabled = true;
-                  quitbutton.Text = "Are You Sure!?";
-                  current_state = Execution_state.Waiting_to_terminate;
-                  break;
-      case Execution_state.Waiting_to_terminate:
-                  exit_clock.Enabled = false;
-                  quitbutton.Text = "Quit...";
-                  current_state = Execution_state.Executing;
-                  break;
-      }//End of switch statement
-      }//End of method stoprun.  In C Sharp language "method" means "function".
-
-      protected void resetrun(Object sender, EventArgs events)
+      //Helper Method to Exit and LEAVE the Program (waits 2.5 seconds before closing)
+      protected void stopRun(Object sender, EventArgs events)
+      {
+            switch(current_state)
             {
-                  switch(runtime)
-                  {
-                        case State.Init:
+                  case Execution_state.Executing:
+                              exit_clock.Interval = 2500;     //2500ms = 2.5 seconds
+                              exit_clock.Enabled  = true;
+                              quit_button.Text = "Cancel!?";
+                              current_state = Execution_state.Waiting_to_terminate;
                               break;
-
-                        default:
-                              runtime = State.Init;
-
-                              x1_coordinput.Text = " ";
-                              x_mid.Text = " ";
-                              x2_coordinput.Text = " ";
-                              y1_coordinput.Text = " ";
-                              y_mid.Text = " ";
-                              y2_coordinput.Text = " ";
-                              gobutton.Text = "Go!!!";
-                              output_coord.Text = "( , )";
-                              peace_of_mind_counter = 0;
-
-                              ball_clock.Enabled = false;
-                              delta_x1 = 0;
-                              delta_x2 = 0;
-                              delta_y1 = 0;
-                              delta_y2 = 0;
-                              x_coord = 0;
-                              y_coord = 0;
-
-                              line_drawer.Invalidate();
-                              line_drawer.Refresh();
+                  case Execution_state.Waiting_to_terminate:
+                              exit_clock.Enabled = false;
+                              quit_button.Text   = "Quit...";
+                              current_state = Execution_state.Executing;
                               break;
-                  }
+            }//End of switch statement
+
+      }//End of method stopRun.  
+      
+      //Helper Method to Initialize the Program
+      protected void startRun(Object sender, EventArgs events)
+      {
+            switch(runtime)
+            {
+                  case State.Line:
+                        //change text
+                        start_button.Text = "Resume!";
+                        runtime = State.Pause; 
+
+                        ball_clock.Enabled = false;
+                        break;
+
+                  default:
+                        //change text
+                        if(runtime == State.Init && assertValues()) 
+                        {
+                              dir_angle      = Convert.ToDouble(dir_input.Text);
+                              BALL_MOVEMENTS = 1000 * Convert.ToDouble(speed_input.Text);
+                        }
+
+                        start_button.Text= "Pause?";
+
+                        //calculate the delta_x and delta_y
+                        delta_x = (BALL_MOVEMENTS / ball_interval) * Math.Sin(dir_angle);
+                        delta_y = (BALL_MOVEMENTS / ball_interval) * Math.Cos(dir_angle);
+                        runtime = State.Line;
+
+                        ball_clock.Enabled = true;
+
+                        if(runtime == State.Init) {ball_mover.Refresh(); }
+
+                        break;
+
             }
-
+      }//End of startRun
+        
+      //Method to Move the Ball Around
       protected void ballHelper(Object sender, EventArgs events)
-      {
-            
-      if(peace_of_mind_counter < BALL_MOVEMENTS)
-      {           
-                  x_coord += delta_x1;
-                  y_coord += delta_y1;
-      }
-      else if(peace_of_mind_counter < (2 * BALL_MOVEMENTS))
-      {
-                  x_coord += delta_x2;
-                  y_coord += delta_y2;
+      {   
+            if(collisionCheck())
+            {
+
+            }
+            else  
+            {
+                  x_coord += delta_x;
+                  y_coord += delta_y;
+            }
+
+            x_output.Text = Convert.ToString((Convert.ToInt32(x_coord) + 10));
+            y_output.Text = Convert.ToString((Convert.ToInt32(y_coord) + 10));
+
+            ball_mover.Refresh(); 
       }
 
-            output_coord.Text = "(" + (Convert.ToInt32(x_coord) + 10) + "," + (Convert.ToInt32(y_coord) + 10) + ")";
-            line_drawer.Refresh(); 
-            peace_of_mind_counter++;
-            }
+       //Method to Shut Down the System
       protected void shutdown(System.Object sender, EventArgs even)                   //<== Revised for version 2.2
-      {//This function is called when the clock makes its first "tick", 
-      //which occurs 3.5 seconds after the clock starts.
-      Close();       //That means close the main user interface window.
+      {
+            Close();       //That means close the main user interface window.
       }//End of method shutdown
 
-      
+      //Helper Method to Process Collisions
+      protected bool collisionCheck()
+      {
+            if(x_coord + delta_x < 0 || x_coord + delta_x > 980) 
+                  {    
+                        
+                        if(x_coord < 500) 
+                              {x_coord = 0; y_coord = y_coord + (delta_y * (x_coord / delta_x));}
+                        else 
+                              {x_coord = 980; y_coord = y_coord + (delta_y * ((980 - x_coord) / delta_x));}
+                        delta_x = delta_x * -1;
+                        return true;
+                  }
 
-      */
+            if(y_coord + delta_y < 0 || y_coord + delta_y > 680) 
+                  {
+                        
+                        if(y_coord < 350) 
+                              {y_coord = 0; x_coord = x_coord + (delta_x * (y_coord / delta_y));}
+                        else 
+                              {y_coord = 680; x_coord = x_coord + (delta_x * (680 - y_coord / delta_y));}
+                        
+                        delta_y = delta_y * -1;
+                        return true;
+                  }
+            return false;
+      }
       
+      //Helper Method to Assert Inputs
+      protected bool assertValues()
+      {
+            return true;
+      }
+
       // Method to show a whole bunch of tiny funny red dots in the shape of an Exit Sign
       public class Graphicpanel: Panel
-      {private Brush paint_brush = new SolidBrush(System.Drawing.Color.Yellow);
+      {private Brush paint_brush = new SolidBrush(System.Drawing.Color.Red);
       public Graphicpanel() 
             {Console.WriteLine("A graphic enabled panel was created");}  //Constructor writes to terminal
 
@@ -351,29 +354,18 @@ public class RicochetBallInterface: Form
       {  
             Graphics graph = ee.Graphics;
 
-            /*
             switch(runtime)
             {
-            case State.Init: 
+                  case State.Init: 
+                        Console.WriteLine("Nothing Is Being Drawn");
+                        break;
 
-                  Console.WriteLine("Nothing Is Being Drawn");
-                  
-            break;
-
-            default:
-                  Console.WriteLine("A Line Is Being Drawn");
-
-                  Pen pen = new Pen(System.Drawing.Color.Black);
-                  pen.Width = 3.0F;                  
-                  
-                  graph.DrawLine(pen, Convert.ToInt32(x1_coordinput.Text), Convert.ToInt32(y1_coordinput.Text), Convert.ToInt32(x_mid.Text), Convert.ToInt32(y_mid.Text));
-                  graph.DrawLine(pen, Convert.ToInt32(x_mid.Text), Convert.ToInt32(y_mid.Text), Convert.ToInt32(x2_coordinput.Text), Convert.ToInt32(y2_coordinput.Text));
-
-                  graph.FillEllipse(paint_brush,Convert.ToInt32(x_coord), Convert.ToInt32(y_coord),25,25);
-                  
-            break;
+                  default:
+                        Console.WriteLine("A Ball Is Moving - Currently At ( " + Convert.ToString(x_coord) + ", " + Convert.ToString(y_coord) + ")");
+                        graph.FillEllipse(paint_brush ,Convert.ToInt32(x_coord), Convert.ToInt32(y_coord),20,20);
+                        break;
             }
-            */
+            
 
             base.OnPaint(ee);
 
